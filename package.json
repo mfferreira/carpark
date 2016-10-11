@@ -1,0 +1,23 @@
+{
+  "name": "carpark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mfferreira/carpark.git"
+  },
+  "author": "Marco Ferreira <m@rco.cc>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mfferreira/carpark/issues"
+  },
+  "homepage": "https://github.com/mfferreira/carpark#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "xml2js": "^0.4.17"
+  }
+}
