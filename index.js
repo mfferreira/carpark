@@ -2,14 +2,15 @@
 * @Author: Marco Ferreira
 * @Date:   2016-10-11 18:00:40
 * @Last Modified by:   Marco Ferreira
-* @Last Modified time: 2016-10-11 23:27:36
+* @Last Modified time: 2016-10-11 23:55:55
 */
 
 'use strict';
 
 var express = require('express'),
 	_ 		= require('lodash'),
-	utils 	= require('./utils');
+	utils 	= require('./utils'),
+	errors 	= require('./errors');;
 
 
 // cache
@@ -19,7 +20,7 @@ function startService() {
 	var app = express();
 
 	app.get('/', function(req, res) {
-		res.send()
+		res.send("Well, hello there!");
 	})
 
 	app.get('/parkinglots/:lotid/cars/:hours', function(req, res) {
@@ -73,10 +74,11 @@ function startService() {
 
 function startApp(err, data) {
 	utils.carparkData = data;
-	// console.log(utils.carparkData);
 
 	switch (err) {
-		case utils.LOT_FULL:
+		case errors.LOT_FULL:
+			console.log('ERROR: One or more lots exceed capacity of 23');
+			process.exit(1);
 			break;
 		default:
 			startService();
