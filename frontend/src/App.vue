@@ -13,10 +13,10 @@
     components: {
       slotDisplay
     },
+    created () {
+      this.$store.dispatch('GET_ALL_SLOTS')
+    },
     computed: {
-      hello() {
-        return "Well, hello there!"
-      },
       slots() {
         return this.$store.state.slots
       }
@@ -24,6 +24,4 @@
   }
 </script>
 
-<style src="materialize-css/dist/css/materialize.min.css">
-
-</style>
+<style src="materialize-css/dist/css/materialize.min.css"></style>
