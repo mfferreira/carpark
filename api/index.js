@@ -2,7 +2,7 @@
 * @Author: Marco Ferreira
 * @Date:   2016-10-11 18:00:40
 * @Last Modified by:   Marco Ferreira
-* @Last Modified time: 2016-10-12 04:07:30
+* @Last Modified time: 2016-10-12 07:12:25
 */
 
 'use strict';
@@ -19,8 +19,21 @@ function startService(data) {
 	var carparkData = data;
 	var app = express();
 
+	//CORS middleware
+	var allowCrossDomain = function(req, res, next) {
+	    res.header('Access-Control-Allow-Origin', '*');
+	    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+	    res.header('Access-Control-Allow-Headers', 'Content-Type');
+	    next();
+	}
+	app.use(allowCrossDomain);
+
 	app.get('/', function(req, res) {
 		res.send("Well, hello there!");
+	})
+
+	app.get('/parkinglots', function (req, res) {
+		res.send(carparkData);
 	})
 
 	app.get('/parkinglots/:lotid/cars/:hours', function(req, res) {
