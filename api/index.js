@@ -2,7 +2,7 @@
 * @Author: Marco Ferreira
 * @Date:   2016-10-11 18:00:40
 * @Last Modified by:   Marco Ferreira
-* @Last Modified time: 2016-10-11 23:55:55
+* @Last Modified time: 2016-10-12 04:07:30
 */
 
 'use strict';
@@ -13,10 +13,10 @@ var express = require('express'),
 	errors 	= require('./errors');;
 
 
-// cache
-var carparkData = null;
 
-function startService() {
+function startService(data) {
+	// cache
+	var carparkData = data;
 	var app = express();
 
 	app.get('/', function(req, res) {
@@ -31,7 +31,7 @@ function startService() {
 		}
 
 		else {
-			var payload = utils.carparkData.filter(function(obj){
+			var payload = carparkData.filter(function(obj){
 				// get all cards parked in 'lotid'
 				return obj.parkinglotid === req.params.lotid
 			}).map(function(obj){
@@ -52,7 +52,7 @@ function startService() {
 		}
 
 		else {
-			var payload = _.reduce(utils.carparkData, function(result, value, key) {
+			var payload = _.reduce(carparkData, function(result, value, key) {
 				result.totalAmountOfCars += 1;
 				result.value += utils.calcValue(req.params.hours);
 				result.discountInCents += utils.calcDiscountInCents(req.params.hours);
@@ -73,7 +73,7 @@ function startService() {
 }
 
 function startApp(err, data) {
-	utils.carparkData = data;
+	console.log(data)
 
 	switch (err) {
 		case errors.LOT_FULL:
@@ -81,7 +81,7 @@ function startApp(err, data) {
 			process.exit(1);
 			break;
 		default:
-			startService();
+			startService(data);
 			break;
 	}
 
