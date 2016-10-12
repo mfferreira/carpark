@@ -2,22 +2,39 @@
 * @Author: Marco Ferreira
 * @Date:   2016-10-11 18:33:10
 * @Last Modified by:   Marco Ferreira
-* @Last Modified time: 2016-10-11 20:45:24
+* @Last Modified time: 2016-10-11 23:00:50
 */
 
 'use strict';
 
 var fs 		= require('fs'),
     xml2js 	= require('xml2js'),
+    _ 		= require('lodash'),
     config 	= require('./config');
+
+var ERR = {
+	LOT_FULL: 10
+}
+
+function checkData(data, cb) {
+	var lots = {}, err = null;
+	data = data.cars.car.map(function(obj){
+		lots = _.update(lots, "lot"+obj.$.parkinglotid, function(n) {
+			return n ? n + 1 : 1;
+		});
+		if (lots["lot"+obj.$.parkinglotid] > 23)
+			err = ERR.LOT_FULL;
+		return obj.$;
+	});
+	cb(err, data);
+}
 
 function parseXML(filename, cb) {
 	var parser = new xml2js.Parser();
 	fs.readFile(__dirname + filename, function(err, data) {
 	    parser.parseString(data, function (err, result) {
 	        // console.log(JSON.stringify(result, null, 2));
-	        if (cb)
-	        	cb(result)
+	        checkData(result, cb)
 	    });
 	});
 }
@@ -38,11 +55,11 @@ function calcDiscountInCents(hours) {
 
 
 module.exports = {
+	ERR: ERR,
 	parseXML: function(filename, cb) {
 		console.log('Parsing XML file:', filename)
 		return parseXML((filename[0] !== '/'? '/':'') + filename, cb)
 	},
-	carparkData: null,
 	calcValue: calcValue,
 	calcDiscount: calcDiscount,
 	calcDiscountInCents: calcDiscountInCents
