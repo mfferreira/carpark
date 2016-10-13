@@ -9,6 +9,7 @@
         <a class="waves-effect waves-light btn" @click="displayLot">Lot</a>
         <a class="waves-effect waves-light btn" @click="displayLotHours">Lot + Hours</a>
         <a class="waves-effect waves-light btn" @click="displayInventory">Inventory</a>
+        <a class="waves-effect waves-light btn" @click="createPark">Park Car</a>
       </div>
     </div>
 
@@ -56,15 +57,45 @@
         <inventory-table :inventory-data="inventory" v-if="selectedHours"></inventory-table>
       </template>
 
+      <template v-if="selectedDisplay === displays.parkcar">
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s6">
+                <input id="park_brand" type="text" class="validate" v-model="parkcar.brand">
+                <label for="park_brand">Brand</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="park_license_plate" type="text" class="validate" v-model="parkcar.plate">
+                <label for="park_license_plate">License Plate</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3 m6">
+                <input id="park_lot" type="text" class="validate" v-model="parkcar.lot">
+                <label for="park_lot">Lot #</label>
+              </div>
+              <div class="input-field col s5 m3">
+                <input id="park_date" type="date" class="validate" v-model="parkcar.date">
+              </div>
+              <div class="input-field col s4 m3">
+                <input id="park_time" type="time" class="validate" v-model="parkcar.time">
+              </div>
+            </div>
+          </form>
+        </div>
+      </template>
 
     </div>
     </div>
 
+    <p><pre>parkcar:  {{parkcar}} </pre></p>
 
 </div>
 </template>
 
 <script>
+  import Materialize from 'materialize-css/dist/js/materialize.min.js'
   import allLotsTable from './components/allLotsTable.vue'
   import inventoryTable from './components/inventoryTable.vue'
   import _ from 'lodash'
@@ -106,6 +137,13 @@
         selectedDisplay: null,
         selectedLot: null,
         selectedHours: null,
+        parkcar: {
+          brand: "",
+          plate: "",
+          lot: "",
+          date: "",
+          time: ""
+        }
       }
     },
 
@@ -124,6 +162,9 @@
       displayInventory () {
         this.selectedDisplay = this.displays.inventory
       },
+      createPark () {
+        this.selectedDisplay = this.displays.parkcar
+      }
     },
 
     watch: {
