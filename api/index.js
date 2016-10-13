@@ -2,15 +2,16 @@
 * @Author: Marco Ferreira
 * @Date:   2016-10-11 18:00:40
 * @Last Modified by:   Marco Ferreira
-* @Last Modified time: 2016-10-12 07:12:25
+* @Last Modified time: 2016-10-13 04:38:08
 */
 
 'use strict';
 
 var express = require('express'),
+	bodyParser = require('body-parser'),
 	_ 		= require('lodash'),
 	utils 	= require('./utils'),
-	errors 	= require('./errors');;
+	errors 	= require('./errors');
 
 
 
@@ -27,6 +28,7 @@ function startService(data) {
 	    next();
 	}
 	app.use(allowCrossDomain);
+	app.use(bodyParser.json()); // for parsing application/json
 
 	app.get('/', function(req, res) {
 		res.send("Well, hello there!");
@@ -77,6 +79,18 @@ function startService(data) {
 			});
 			payload.value = parseFloat(payload.value).toFixed(2);
 			res.send(payload);
+		}
+	});
+
+	app.post('/parkinglots/:lotid/cars', function(req, res){
+		console.log(req.body);
+		if (/[^0-9]/.test(req.params.lotid) || _.difference(_.keys(req.body), ['brand', 'licenseplate', 'parkingtime']).length) {
+			res.status(400).send("Invalid parameters");
+		}
+		else {
+			carparkData.push(_.extend(req.body, {parkinglotid: req.params.lotid}))
+			console.log(carparkData)
+			res.sendStatus(200);
 		}
 	});
 
