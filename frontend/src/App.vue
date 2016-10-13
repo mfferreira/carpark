@@ -151,19 +151,32 @@
       displayAllLots () {
         this.selectedDisplay = this.displays.all
         this.$store.dispatch('GET_ALL_SLOTS')
+        this.createParkClear()
       },
       displayLot () {
         this.selectedDisplay = this.displays.lot
         this.$store.dispatch('GET_ALL_SLOTS')
+        this.createParkClear()
       },
       displayLotHours () {
         this.selectedDisplay = this.displays.lothours
+        this.createParkClear()
       },
       displayInventory () {
         this.selectedDisplay = this.displays.inventory
+        this.createParkClear()
       },
       createPark () {
         this.selectedDisplay = this.displays.parkcar
+      },
+      createParkClear() {
+        this.parkcar = {
+          brand: "",
+          plate: "",
+          lot: "",
+          date: "",
+          time: ""
+        }
       }
     },
 
