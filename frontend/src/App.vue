@@ -62,24 +62,24 @@
           <form class="col s12">
             <div class="row">
               <div class="input-field col s6">
-                <input id="park_brand" type="text" class="validate" v-model="parkcar.brand">
+                <input id="park_brand" type="text" class="validate" v-model.lazy.trim="parkcar.brand">
                 <label for="park_brand">Brand</label>
               </div>
               <div class="input-field col s6">
-                <input id="park_license_plate" type="text" class="validate" v-model="parkcar.plate">
+                <input id="park_license_plate" type="text" class="validate" v-model.lazy.trim="parkcar.plate">
                 <label for="park_license_plate">License Plate</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s3 m6">
-                <input id="park_lot" type="text" class="validate" v-model="parkcar.lot">
+                <input id="park_lot" type="text" class="validate" v-model.lazy.number.trim="parkcar.lot">
                 <label for="park_lot">Lot #</label>
               </div>
               <div class="input-field col s5 m3">
-                <input id="park_date" type="date" class="validate" v-model="parkcar.date">
+                <input id="park_date" type="date" class="validate" v-model.lazy.trim="parkcar.date">
               </div>
               <div class="input-field col s4 m3">
-                <input id="park_time" type="time" class="validate" v-model="parkcar.time">
+                <input id="park_time" type="time" class="validate" v-model.lazy.trim="parkcar.time">
               </div>
             </div>
           </form>
