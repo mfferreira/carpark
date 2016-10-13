@@ -2,7 +2,7 @@
 * @Author: Marco Ferreira
 * @Date:   2016-10-12 03:10:39
 * @Last Modified by:   Marco Ferreira
-* @Last Modified time: 2016-10-12 23:30:31
+* @Last Modified time: 2016-10-13 05:37:10
 */
 
 'use strict';
@@ -19,7 +19,7 @@ export default new Vuex.Store({
 		inventory: {}
 	},
 	mutations: {
-		'ADD_SLOT' (state, payload) {
+		'ADD_LOT' (state, payload) {
 			state.slots.push(payload.slotData)
 		},
 		'RESET_SLOTS' (state, payload) {
@@ -30,8 +30,14 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
-		'ADD_SLOT' ({ commit, state }, payload) {
-			commit('ADD_SLOT', payload)
+		'ADD_LOT' ({ commit, state }, payload) {
+			let headers = {"Content-Type": "application/json"}
+			Vue.http.post(`http://localhost:3000/parkinglots/${payload.lot}/cars`, _.omit(payload, ['lot']), {headers: headers}).then((response) => {
+	          // success callback
+	          commit('ADD_LOT', _.extend(_.omit(payload, ['lot']), {parkinglotid: payload.lot}))
+	        }, (response) => {
+	          // error callback
+	        });
 		},
 		'RESET_SLOTS' ({ commit, state }, payload) {
 			commit('RESET_SLOTS', payload)
@@ -67,6 +73,6 @@ export default new Vuex.Store({
 	        }, (response) => {
 	          // error callback
 	        });
-		},
+		}
 	}
 })

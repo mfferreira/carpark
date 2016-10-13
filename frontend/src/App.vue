@@ -82,6 +82,9 @@
                 <input id="park_time" type="time" class="validate" v-model.lazy.trim="parkcar.time">
               </div>
             </div>
+            <div class="row">
+              <button class="btn waves-effect waves-light" type="submit" name="action" @click.prevent="parkCar">Park</button>
+            </div>
           </form>
         </div>
       </template>
@@ -89,7 +92,7 @@
     </div>
     </div>
 
-    <p><pre>parkcar:  {{parkcar}} </pre></p>
+    <!-- <p><pre>parkcar:  {{parkcar}} </pre></p> -->
 
 </div>
 </template>
@@ -177,6 +180,15 @@
           date: "",
           time: ""
         }
+      },
+      parkCar() {
+        let payload = {
+          "brand": this.parkcar.brand,
+          "licenseplate": this.parkcar.plate,
+          "lot": this.parkcar.lot,
+          "parkingtime": `${this.parkcar.date}T${this.parkcar.time}:00+00:00`
+        }
+        this.$store.dispatch('ADD_LOT', payload)
       }
     },
 
